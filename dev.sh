@@ -27,7 +27,7 @@ clean_data() {
     
     # Stop containers
     echo "   Stopping containers..."
-    sudo docker compose down
+    sudo docker compose -f docker-compose-dev.yml down
     
     # Clean uploads directory
     if [ -d "uploads" ]; then
@@ -59,29 +59,29 @@ rebuild_containers() {
     
     # Stop containers
     echo "   Stopping containers..."
-    sudo docker compose down
+    sudo docker compose -f docker-compose-dev.yml down
     
     # Build without cache
     echo "   Building containers (no cache)..."
-    sudo docker compose build --no-cache
+    sudo docker compose -f docker-compose-dev.yml build --no-cache
     
     # Start containers
     echo "   Starting containers..."
-    sudo docker compose up -d
+    sudo docker compose -f docker-compose-dev.yml up -d
     
     echo "Rebuild complete!"
 }
 
 show_logs() {
     echo "Showing live logs (Ctrl+C to exit)..."
-    sudo docker compose logs -f layervault
+    sudo docker compose -f docker-compose-dev.yml logs -f layervault
 }
 
 wait_for_container() {
     echo "Waiting for container to be ready..."
     timeout=30
     while [ $timeout -gt 0 ]; do
-        if sudo docker compose exec layervault curl -f http://localhost/ >/dev/null 2>&1; then
+        if sudo docker compose -f docker-compose-dev.yml exec layervault curl -f http://localhost/ >/dev/null 2>&1; then
             echo "Container is ready!"
             echo "Access at: http://localhost:8080"
             return 0

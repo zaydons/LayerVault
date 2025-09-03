@@ -1,6 +1,6 @@
 services:
   layervault:
-    image: ghcr.io/zaydons/layervault:latest
+    build: .
     container_name: layervault-app
     ports:
       - "8080:80"
@@ -21,7 +21,7 @@ services:
       - layervault-network
 
   thumbnail-service:
-    image: ghcr.io/zaydons/layervault-thumbnails:latest
+    build: ./thumbnail-service
     container_name: layervault-thumbnails
     volumes:
       - ./uploads:/app/uploads:ro
