@@ -1,0 +1,19 @@
+RewriteEngine On
+
+# Handle specific routes first
+RewriteRule ^upload$ index.php [QSA,L]
+RewriteRule ^api/(.*)$ index.php [QSA,L]
+RewriteRule ^view/([0-9]+)$ index.php [QSA,L]
+RewriteRule ^serve/([0-9]+)$ index.php [QSA,L]
+RewriteRule ^delete/([0-9]+)$ index.php [QSA,L]
+
+# Handle all other non-file requests
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Set maximum upload file size
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+php_value memory_limit 256M
+php_value max_execution_time 300

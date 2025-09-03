@@ -1,0 +1,41 @@
+services:
+  layervault:
+    build: .
+    container_name: layervault-app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/var/www/html/data
+      - ./uploads:/var/www/html/uploads
+      - ./thumbnails:/var/www/html/thumbnails
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    depends_on:
+      - thumbnail-service
+    networks:
+      - layervault-network
+
+  thumbnail-service:
+    build: ./thumbnail-service
+    container_name: layervault-thumbnails
+    volumes:
+      - ./uploads:/app/uploads:ro
+      - ./thumbnails:/app/thumbnails
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+    networks:
+      - layervault-network
+
+networks:
+  layervault-network:
+    driver: bridge
