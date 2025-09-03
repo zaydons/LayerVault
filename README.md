@@ -285,6 +285,24 @@ docker-compose up -d
 - **[SQLite](https://sqlite.org/)** - Database engine
 - **[Apache HTTP Server](https://httpd.apache.org/)** - Web server (via php:8.1-apache)
 
+## GitHub Actions
+
+This repository includes automated Docker image building:
+
+- **🏗️ Build & Push** - Builds and publishes Docker images to GitHub Container Registry on push to main
+
+### Pre-built Images
+
+Pull the latest images from GitHub Container Registry:
+
+```bash
+# Main application
+docker pull ghcr.io/[username]/layervault:latest
+
+# Thumbnail service  
+docker pull ghcr.io/[username]/layervault-thumbnail:latest
+```
+
 ## Development
 
 ### Local Development
