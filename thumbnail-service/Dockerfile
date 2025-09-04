@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     pango-dev \
     giflib-dev \
     librsvg-dev \
+    pixman-dev \
     curl
 
 # Create app directory
@@ -19,23 +20,14 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --only=production
+RUN npm install --only=production --verbose
 
 # Copy application code
 COPY server.js ./
 
 # Create required directories
-RUN mkdir -p /tmp/stl-uploads /tmp/thumbnails
-
-# Create non-root user
-RUN addgroup -g 1001 -S thumbnail && \
-    adduser -S -D -H -u 1001 -s /sbin/nologin -G thumbnail thumbnail
-
-# Set ownership
-RUN chown -R thumbnail:thumbnail /app /tmp/stl-uploads /tmp/thumbnails
-
-# Switch to non-root user
-USER thumbnail
+RUN mkdir -p /app/uploads /app/thumbnails && \
+    chmod 755 /app/uploads /app/thumbnails
 
 # Expose port
 EXPOSE 3000
