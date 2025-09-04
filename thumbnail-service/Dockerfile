@@ -1,17 +1,18 @@
-FROM node:18-alpine
+FROM node:18-slim
 
 # Install dependencies for 3D rendering and health checks
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     python3 \
     make \
     g++ \
-    cairo-dev \
-    jpeg-dev \
-    pango-dev \
-    giflib-dev \
-    librsvg-dev \
-    pixman-dev \
-    curl
+    libcairo2-dev \
+    libjpeg-dev \
+    libpango1.0-dev \
+    libgif-dev \
+    librsvg2-dev \
+    libpixman-1-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create app directory
 WORKDIR /app
