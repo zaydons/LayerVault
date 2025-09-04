@@ -17,8 +17,8 @@ EOF
 # Ensure data and uploads directories exist with proper permissions
 echo "Setting up directories..."
 mkdir -p /var/www/html/data /var/www/html/uploads /var/www/html/thumbnails
-chown -R www-data:www-data /var/www/html/data /var/www/html/uploads /var/www/html/thumbnails
-chmod -R 755 /var/www/html/data /var/www/html/uploads /var/www/html/thumbnails
+chown -R www-data:www-data /var/www/html/data
+chmod -R 755 /var/www/html/data
 
 # Initialize database if it doesn't exist
 if [ ! -f "${LAYERVAULT_DB_PATH}" ]; then
